@@ -11,16 +11,9 @@
 import { computed, ref, watch } from 'vue'
 import CalendarCell from './CalendarCell.vue'
 import CalendarDayOfWeek from './CalendarDayOfWeek.vue'
-import { useCalculateDate } from '../composables/useCalculateDate'
 import { results } from '../mocks'
-import { TypeDate } from '../types/calendar'
-
-const dataMock = results.map((r: any) => ({
-  id: r.id,
-  startAt: `${r.start_date} ${r.start_time}`,
-  endAt: `${r.end_date} ${r.end_time}`,
-  name: r.name
-}))
+import { ICalendarCell, IDataMock, TypeDate } from '../types/calendar'
+import { useMappingDate } from '../composables/useMappingDate.ts'
 
 interface IProps {
   modelValue: TypeDate
@@ -38,7 +31,14 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emits = defineEmits<TypeEmits>()
 
-const allDay = ref([])
+const dataMock: IDataMock[] = results.map((r: any) => ({
+  id: r.id,
+  startAt: `${r.start_date} ${r.start_time}`,
+  endAt: `${r.end_date} ${r.end_time}`,
+  name: r.name
+}))
+
+const allDay = ref<ICalendarCell[]>([])
 
 const currentDay = computed({
   get() {
@@ -52,7 +52,7 @@ const currentDay = computed({
 watch(
   currentDay,
   () => {
-    allDay.value = useCalculateDate(currentDay)
+    allDay.value = useMappingDate(currentDay, dataMock)
   },
   {
     immediate: true

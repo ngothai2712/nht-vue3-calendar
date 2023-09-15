@@ -13,7 +13,7 @@ import { reactive } from 'vue'
 import Calendar from './components/Calendar.vue'
 
 const pageState = reactive({
-  currentDay: '2023-07-07'
+  currentDay: '2023-09-07'
 })
 
 const onChangeDate = (event: Event) => {

@@ -1,7 +1,8 @@
 import { computed, Ref } from 'vue'
 import dayjs from 'dayjs'
+import { ICalendarCell } from '../types/calendar.ts'
 
-export function useCalculateDate(currentDay: Ref) {
+export function useCalculateDate(currentDay: Ref): ICalendarCell[] {
   const daysEmptyStart = computed(() => +dayjs(currentDay.value).startOf('month').format('d'))
   const daysInMonth = computed(() => dayjs(currentDay.value).daysInMonth())
   const daysEmptyEnd = computed(() => 6 - +dayjs(currentDay.value).endOf('month').format('d'))
